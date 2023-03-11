@@ -1,0 +1,10 @@
+tmp*
+__pycache__
+*.pyc
+.pytest_cache
+.cache
+*.swp
+.DS_Store
+.ipynb_checkpoints/
+.pytest_cache
+env/

@@ -1,8 +1,12 @@
 # markdown-ish to tufte.css
 
-cheat sheet
+Change a basic text file with markup to html that uses [tufte.css](https://edwardtufte.github.io/tufte-css/).
 
-## single line markup
+## basic markup
+
+### new section
+
+`# optional section title`
 
 ### em dash
 works with or without a space between the text and the double dash.
@@ -21,6 +25,17 @@ works with or without a space between the text and the double dash.
 
 ### link
 `[visible text](url)`
+
+### uppercase start to paragraph (so-called newthought)
+```
+
++ It was the best
+of times...
+```
+
+becomes:
+
+`IT WAS THE BEST of times...`
 
 ## multi-line markup
 

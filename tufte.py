@@ -3,255 +3,179 @@ import re
 import string
 
 
-def to_lines(data):
-    """break data into list of lines"""
-    result = []
-    for line in data.split("\n"):
-        if line := line.strip():
-            result.append(line)
-        elif result:  # ignore empty lines at top of file
-            if result[-1]:  # ignore duplicate empty lines
-                result.append("")
-    return result
+def emdash_to_html(data):
+    pat = r"(.*?)\s?--\s?(.*)"
+    while m := re.match(pat, data, re.DOTALL):
+        data = f"{m.group(1)}&mdash;{m.group(2)}"
+    return data
 
 
-def to_paragraphs(lines):
-    """break list of lines into list of paragraphs (list of list of lines)"""
-    result = []
-    paragraph = []
-    for line in lines:
-        if line:
-            paragraph.append(line)
-        else:
-            if paragraph:  # do we have anything to add?
-                result.append(paragraph)
-                paragraph = []
-    if paragraph:
-        result.append(paragraph)
-
-    return result
+def code_to_html(data):
+    pat = r"(.*?)`(.*?)`(.*)"
+    while m := re.match(pat, data, re.DOTALL):
+        data = f"{m.group(1)}<code>{m.group(2)}</code>{m.group(3)}"
+    return data
 
 
-def to_sections(paragraphs):
-    """break paragraphs into sections (sections start with "#")
-
-    a section is a list of paragraphs
-    a paragraph is a list of lines
-    """
-
-    def is_section(line):
-        if line == "#":
-            return True
-        if line.startswith("# "):
-            return True
-        return False
-
-    first_para = paragraphs[0]
-    if not is_section(first_para[0]):
-        first_para.insert("#", 0)  # force section header as first line
-
-    result = []
-    section = []
-
-    for paragraph in paragraphs:
-        if is_section(paragraph[0]):
-            if section:
-                result.append(section)
-                section = []
-            section.append(paragraph)
-        else:
-            section.append(paragraph)
-
-    if section:
-        result.append(section)
-    return result
+def bold_to_html(data):
+    pat = r"(.*?)(?<!\\)\*{2}(.+?)(?<!\\)\*{2}(.*)"  # 2 non-escaped *s
+    while m := re.match(pat, data, re.DOTALL):
+        data = f"{m.group(1)}<b>{m.group(2)}</b>{m.group(3)}"
+    return data
 
 
-def lines_to_html(lines):
-    """multi-line conversions"""
-    is_note = False
-    result = []
-    for line in lines:
-
-        # ^ optional text to which footnote is attached
-        # numbered side note
-        # numbered side note
-        # ^
-        if line.startswith("^"):
-            if is_note:
-                result.append("</span>")
-                is_note = False
-            else:
-                is_note = True
-                toks = line.split(maxsplit=1)
-                text = toks[1] if len(toks) > 1 else ""
-                id = "sn-" + ''.join(
-                    random.choices(string.ascii_lowercase, k=5))
-                result.append(
-                    f'<label for="{id}" class="margin-toggle sidenote-number">'
-                    f'{text}</label>'
-                    f'<input type="checkbox" id="{id}" class="margin-toggle"/>'
-                    '<span class="sidenote">'
-                )
-
-        # >
-        # side note
-        # side note
-        # >
-        elif line == ">":
-            if is_note:
-                result.append("</span>")
-                is_note = False
-            else:
-                is_note = True
-                id = "mn-" + ''.join(
-                    random.choices(string.ascii_lowercase, k=5))
-                result.append(
-                    f'<label for="{id}" class="margin-toggle">'
-                    f'&#8853;</label>'
-                    f'<input type="checkbox" id="{id}" class="margin-toggle"/>'
-                    '<span class="marginnote">'
-                )
-
-        # image with margin text
-        #
-        # { image url
-        # margin text
-        # {
-        elif m := re.match(r"{\s(.+)$", line):
-            if is_note:
-                result.append("</span>")
-                is_note = False
-            else:
-                is_note = True
-                id = "im-" + ''.join(
-                    random.choices(string.ascii_lowercase, k=5))
-                result.append(
-                    "<figure>"
-                    f'<label for="{id}" class="margin-toggle">'
-                    f'&#8853;</label>'
-                    f'<input type="checkbox" id="{id}" class="margin-toggle"/>'
-                    f'<img src="{m.group(1)}">'
-                    '<span class="marginnote">'
-                )
-        elif line == "{":
-            if not is_note:
-                raise Exception("unexpected image end")
-            is_note = False
-            result.append("</span></figure>")
-
-        # margin image
-        #
-        # } image url
-        # additional text
-        # }
-        elif m := re.match(r"}\s(.+)$", line):
-            if is_note:
-                result.append("</span>")
-                is_note = False
-            else:
-                is_note = True
-                id = "mi-" + ''.join(
-                    random.choices(string.ascii_lowercase, k=5))
-                result.append(
-                    f'<label for="{id}" class="margin-toggle">'
-                    f'&#8853;</label>'
-                    f'<input type="checkbox" id="{id}" class="margin-toggle"/>'
-                    '<span class="marginnote">'
-                    f'<img src="{m.group(1)}">'
-                )
-        elif line == "}":
-            if not is_note:
-                raise Exception("unexpected margin image end")
-            is_note = False
-            result.append("</span>")
-
-        else:
-            result.append(line)
-
-    if is_note:
-        raise Exception("unmatched marginnote or sidenote")
-    return result
+def italic_to_html(data):
+    pat = r"(.*?)(?<!\\)\*(.+?)(?<!\\)\*(.*)"  # non escaped *
+    while m := re.match(pat, data, re.DOTALL):
+        data = f"{m.group(1)}<em>{m.group(2)}</em>{m.group(3)}"
+    return data
 
 
-def line_to_html(line):
-    """perform one-line transformations"""
-
-    # em dash --
-    while m := re.match(r"(.*?)\s?--\s?(.*)$", line):
-        line = m.group(1) + "&mdash;" + m.group(2)
-
-    # code `
-    while m := re.match(r"(.*?)`(.+?)`(.*)$", line):
-        line = f"{m.group(1)}<code>{m.group(2)}</code>{m.group(3)}"
-
-    # bold **
-    while m := re.match(r"(.*?)\*\*(.+?)\*\*(.*)$", line):
-        line = f"{m.group(1)}<b>{m.group(2)}</b>{m.group(3)}"
-
-    # italics *
-    while m := re.match(r"(.*?)\*(.+?)\*(.*)$", line):
-        line = f"{m.group(1)}<em>{m.group(2)}</em>{m.group(3)}"
-
-    # link [name](url)
-    while m := re.match(r"(.*?)\[(.*?)\]\((.*?)\)(.*)$", line):
-        line = (
+def link_to_html(data):
+    pat = r"(.*?)\[(.+?)\]\((.+?)\)(.*)"
+    while m := re.match(pat, data, re.DOTALL):
+        data = (
             f"{m.group(1)}"
             f'<a href="{m.group(3)}">{m.group(2)}</a>'
             f"{m.group(4)}")
+    return data
 
-    return line
+
+def uppercase_to_html(data):
+    pat = r"(.*?)\n\n\+(.+?)\n(.*)"
+    while m := re.match(pat, data, re.DOTALL):
+        data = (
+            f"{m.group(1)}"
+            f'\n\n<span class="newthought">{m.group(2)}</span>\n'
+            f"{m.group(3)}")
+    return data
 
 
-def to_html(sections):
-    """change sections to list of html"""
-    result = []
-    for section in sections:
-        result.append("<section>")
+def split(data, divider):
+    parts = data.split(divider, 2)
+    if len(parts) == 3:
+        before, middle, after = parts
+        if len(middle):
+            return before, middle, after
+    return None, None, None
 
-        first_para = section[0]
-        first_line = first_para[0]
 
-        # add section heading if provided after "#"
-        toks = first_line.split(maxsplit=1)
-        if len(toks) > 1:
-            result.append(f"<h2>{toks[1]}</h2>")
+def margin(span_cls, text, note,
+           label_cls="", before_span=""):
+    id = "".join(random.choices(string.ascii_lowercase, k=5))
+    return (
+        f' <label for="{id}" class="margin-toggle {label_cls}">'
+        f'{text}</label>'
+        f'<input type="checkbox" id="{id}" class="margin-toggle"/>'
+        f"{before_span}"
+        f'<span class="{span_cls}">{note}</span>')
 
-        # remove first line in section (the "# ...")
-        first_para = first_para[1:]
-        if not first_para:  # is first paragraph empty now?
-            section = section[1:]
-            first_para = section[0]
 
-        # start section with UPPERCASE WORDS (supplied after "+")
-        if first_para[0].startswith("+"):
-            first_para[0] = (
-                '<span class="newthought">'
-                f"{section[0][0][1:]}</span>")
+def footnote_to_html(section):
+    while True:
+        before, note, after = split(section, "\n^")
+        if before:
+            if note[0] == "\n":
+                text = ""
+            else:
+                text, note = note.split("\n", 1)
+            section = before + margin(
+                "sidenote", text, note, "sidenote-number") + after
+        else:
+            break
+    return section
 
-        for paragraph in section:
-            result.append("<p>")
-            for line in paragraph:
-                result.append(line_to_html(line))
-            result.append("</p>")
 
-        result.append("</section>")
-        result = lines_to_html(result)
-    return "\n".join(result)
+def marginnote_to_html(section):
+    while True:
+        before, note, after = split(section, "\n>")
+        if before:
+            section = before + margin(
+                "marginnote", "&#8853;", note) + after
+        else:
+            break
+    return section
+
+
+def image_to_html(section):
+    while True:
+        before, note, after = split(section, "\n{")
+        if before:
+            url, note = note.split("\n", 1)
+            img = f'<img src="{url}">'
+            section = before + "<figure>" + margin(
+                "marginnote", "&#8853;", note,
+                before_span=img) + "</figure>" + after
+        else:
+            break
+    return section
+
+
+def marginimage_to_html(section):
+    while True:
+        before, note, after = split(section, "\n}")
+        if before:
+            url, note = note.split("\n", 1)
+            img = f'<img src="{url}">'
+            section = before + margin(
+                "marginnote", "&#8853;", img + note) + after
+        else:
+            break
+    return section
+
+
+def section_title(section):
+    if section[0] != "\n":
+        if "\n" in section:
+            title, new_section = section.split("\n", 1)
+            if title:
+                return f"<h2>{title}</h2><p>{new_section}</p>"
+    return f"<p>{section}</p>"
+
+
+def section_to_html(section):
+    section = section_title(section)
+    section = emdash_to_html(section)
+    section = code_to_html(section)
+    section = bold_to_html(section)
+    section = italic_to_html(section)
+    section = link_to_html(section)
+    section = uppercase_to_html(section)
+    section = footnote_to_html(section)
+    section = marginnote_to_html(section)
+    section = image_to_html(section)
+    section = marginimage_to_html(section)
+    section = re.sub(r"\n{2,}", "</p><p>", section)
+    return f"<section>{section}</section>"
 
 
 def main(data):
 
-    # do some normalization to make to_html less flagy
-    lines = to_lines(data)
-    title, author, date, lines = lines[0], lines[1], lines[2], lines[3:]
-    paragraphs = to_paragraphs(lines)
-    sections = to_sections(paragraphs)
+    title, author, date, data = data.split("\n", 3)
 
-    content = to_html(sections)
-    with open("article.html") as article:
-        data = article.read()
-    print(data.format(title=title, author=author, date=date, content=content))
+    print(
+        "<!DOCTYPE html>"
+        '<html lang="en">'
+        "<head>"
+        '<meta charset="utf-8">'
+        '<meta name="viewport" content="width=device-width, initial-scale=1">'
+        '<link rel="stylesheet" href="tufte.css"/>'
+        f"<title>{title}</title>"
+        "</head>"
+        "<body>"
+        "<article>"
+        f"<h1>{title}</h1>"
+        f'<p class="subtitle">{author}<br>{date}</p>')
+
+    sections = data.split("\n#")
+    for section in sections:
+        if section.strip():
+            print(section_to_html(section))
+
+    print(
+        "</article>"
+        "</body>"
+        "</html>")
 
 
 if __name__ == "__main__":
