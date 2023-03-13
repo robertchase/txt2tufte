@@ -42,12 +42,23 @@ def link_to_html(data):
 
 
 def uppercase_to_html(data):
-    pat = r"(.*?)\n\n\+(.+?)\n(.*)"
+    pat = r"(.*?)\n\+(.+?)\n(.*)"
     while m := re.match(pat, data, re.DOTALL):
         data = (
             f"{m.group(1)}"
             f'\n\n<span class="newthought">{m.group(2)}</span>\n'
             f"{m.group(3)}")
+    return data
+
+
+def heading_to_html(data):
+    pat = r"(.*?)\n(#{2,3}) +(.+?)\n(.*)"
+    while m := re.match(pat, data, re.DOTALL):
+        level = len(m.group(2)) + 1
+        data = (
+            f"{m.group(1)}"
+            f"<h{level}>{m.group(3)}</h{level}>"
+            f"\n\n{m.group(4)}")
     return data
 
 
@@ -167,8 +178,8 @@ def main(data):
         f"<h1>{title}</h1>"
         f'<p class="subtitle">{author}<br>{date}</p>')
 
-    sections = data.split("\n#")
-    for section in sections:
+    data = heading_to_html(data)
+    for section in re.split(r"\n#", data):
         if section.strip():
             print(section_to_html(section))
 

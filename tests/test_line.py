@@ -49,3 +49,12 @@ def test_bold(data, result):
 ))
 def test_italic(data, result):
     assert tufte.italic_to_html(data) == result
+
+
+@pytest.mark.parametrize("data, result", (
+    ("section data", "section data"),
+    ("section\n## heading\ndata", "section<h3>heading</h3>\n\ndata"),
+    ("section\n### heading\ndata", "section<h4>heading</h4>\n\ndata"),
+))
+def test_heading(data, result):
+    assert tufte.heading_to_html(data) == result
