@@ -53,6 +53,15 @@ def test_italic(data, result):
 
 @pytest.mark.parametrize("data, result", (
     ("section data", "section data"),
+    (r"section \*d\*\*ata", "section *d**ata"),
+    (r"section \(d\)a\[t\]a", "section (d)a[t]a"),
+))
+def test_un_escape(data, result):
+    assert tufte.un_escape(data) == result
+
+
+@pytest.mark.parametrize("data, result", (
+    ("section data", "section data"),
     ("section\n## heading\ndata", "section<h3>heading</h3>\n\ndata"),
     ("section\n### heading\ndata", "section<h4>heading</h4>\n\ndata"),
 ))

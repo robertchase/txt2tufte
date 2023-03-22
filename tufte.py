@@ -33,11 +33,24 @@ def italic_to_html(data):
 
 def link_to_html(data):
     pat = r"(.*?)\[(.+?)\]\((.+?)\)(.*)"
+    pat = r"(.*?)(?<!\\)\[(.+?)(?<!\\)\](?<!\\)\((.+?)(?<!\\)\)(.*)"
     while m := re.match(pat, data, re.DOTALL):
         data = (
             f"{m.group(1)}"
             f'<a href="{m.group(3)}">{m.group(2)}</a>'
             f"{m.group(4)}")
+    return data
+
+
+def un_escape(data):
+    data = re.sub(r"\\\*", "*", data, re.DOTALL)
+
+    data = re.sub(r"\\\(", "(", data, re.DOTALL)
+    data = re.sub(r"\\\)", ")", data, re.DOTALL)
+
+    data = re.sub(r"\\\[", "[", data, re.DOTALL)
+    data = re.sub(r"\\\]", "]", data, re.DOTALL)
+
     return data
 
 
@@ -135,6 +148,20 @@ def marginimage_to_html(section):
     return section
 
 
+def blockquote_to_html(section):
+    while True:
+        before, quote, after = split(section, "\n%")
+        if before:
+            ref, quote = quote.split("\n", 1)
+            section = (
+                f"{before}<blockquote><p>{quote}</p>"
+                f"<footer>{ref}</footer></blockquote>{after}"
+            )
+        else:
+            break
+    return section
+
+
 def section_title(section):
     if section[0] != "\n":
         if "\n" in section:
@@ -151,9 +178,11 @@ def section_to_html(section):
     section = bold_to_html(section)
     section = italic_to_html(section)
     section = link_to_html(section)
+    section = un_escape(section)
     section = uppercase_to_html(section)
     section = footnote_to_html(section)
     section = marginnote_to_html(section)
+    section = blockquote_to_html(section)
     section = image_to_html(section)
     section = marginimage_to_html(section)
     section = re.sub(r"\n{2,}", "</p><p>", section)
