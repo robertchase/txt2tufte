@@ -11,20 +11,38 @@ Change a basic text file with markup to html that uses [tufte.css](https://edwar
 ### em dash
 works with or without a space between the text and the double dash.
 
-`text -- text` -> text&mdash;text
+`text -- text` &rarr; text&mdash;text
 
 ### code
 
-`` `text` `` -> `text`
+`` `text` `` &rarr; `text`
 
 ### bold
-`**text**` -> **text**
+`**text**` &rarr; **text**
+
+**Note:** To include an aserisk in the text, escape it with a backslash (\\).
 
 ### italic
-`*test*` -> *text*
+`*test*` &rarr; *text*
+
+**Note:** To include an aserisk in the text, escape it with a backslash (\\).
 
 ### link
 `[visible text](url)`
+
+**Note:** To include a parenthesis in the `url`, escape it with a backslash (\\).
+To include a square bracket in the `visible text`, escape it with a backslash (\\).
+
+### horizontal rule
+On a line by itself:
+
+`---`
+
+### copyright
+On a line by itself:
+
+`@ 1923 Roaring Twenties` &rarr; Copyright &copy; 1923 Roaring Twenties
+
 
 ### uppercase start to paragraph (so-called newthought)
 ```
@@ -70,4 +88,14 @@ more margin note
 note
 more note
 }
+```
+
+### blockquote
+Creates an indented quote in the main column.
+
+```
+% quote attribution
+quote
+more quote
+%
 ```

@@ -3,6 +3,17 @@ import re
 import string
 
 
+def horizontal_rule_to_html(data):
+    return re.sub(r"\n---\n", "\n<hr>\n", data)
+
+
+def copyright_to_html(data):
+    pat = r"(.*?\n)@(.+?)(\n.*)"
+    while m := re.match(pat, data, re.DOTALL):
+        data = f"{m.group(1)}Copyright &copy;{m.group(2)}{m.group(3)}"
+    return data
+
+
 def emdash_to_html(data):
     pat = r"(.*?)\s?--\s?(.*)"
     while m := re.match(pat, data, re.DOTALL):
@@ -173,6 +184,8 @@ def section_title(section):
 
 def section_to_html(section):
     section = section_title(section)
+    section = horizontal_rule_to_html(section)
+    section = copyright_to_html(section)
     section = emdash_to_html(section)
     section = code_to_html(section)
     section = bold_to_html(section)

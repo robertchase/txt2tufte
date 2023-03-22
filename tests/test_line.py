@@ -67,3 +67,9 @@ def test_un_escape(data, result):
 ))
 def test_heading(data, result):
     assert tufte.heading_to_html(data) == result
+
+
+def test_copyright_to_html():
+    data = "abc\n@ 1999 Fred Flintstone\ndef"
+    result = "abc\nCopyright &copy; 1999 Fred Flintstone\ndef"
+    assert tufte.copyright_to_html(data) == result
