@@ -1,10 +1,6 @@
 # markdown-ish to tufte.css
 
-Compile a text file containing markup to html that uses [tufte.css](https://edwardtufte.github.io/tufte-css/) or `css/index.css`.
-
-## Concept
-
-`tufte.css` lets you mark up your `HTML` so that it has
+[tufte.css](https://edwardtufte.github.io/tufte-css/) lets you mark up your `HTML` so that it has
 the feel of one of [Edward Tufte's](https://en.wikipedia.org/wiki/Edward_Tufte)
 books. I wanted to use this styling to create articles for publication
 on a website and I *didn't* want to manage a bunch of hand-edited `HTML`.
@@ -12,7 +8,7 @@ I stole a page from [markdown](https://www.markdownguide.org/) and created
 my own markdown-like text file that compiles to tufte-capable `HTML`.
 
 Since this is for a website, I needed a way to generate an `index.html`
-that was stylistically compatible&mdash;so i made a compier for that too.
+that was stylistically compatible&mdash;so i made a compiler for that too.
 
 ## Article File
 
@@ -148,12 +144,12 @@ works with or without a space between the text and the double dash.
 ### bold
 `**text**` &rarr; **text**
 
-**Note:** To include an aserisk in the text, escape it with a backslash (\\).
+**Note:** To include an asterisk in the text, escape it with a backslash (\\).
 
 ### italic
 `*test*` &rarr; *text*
 
-**Note:** To include an aserisk in the text, escape it with a backslash (\\).
+**Note:** To include an asterisk in the text, escape it with a backslash (\\).
 
 ### link
 `[visible text](url)`
