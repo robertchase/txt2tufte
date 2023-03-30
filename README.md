@@ -65,7 +65,7 @@ An index file supports a subset of the formatting codes described in the
 **Note:** The `index.txt` file only creates links to articles that
 are *explicitly called out*. In other words: The compiled index
 file will not automatically point to *all* the articles&mdash;just the
-ones you want.
+ones you specify, and in just the order you specify.
 
 The lines containing `name-of-article-text-file` 
 tell `index.py` to look for a text file
@@ -78,15 +78,18 @@ The expected layout is something like this:
 
 ```
 ├── site
-│   ├── about.html  # referenced from index page
-│   ├── colophon.html  # referenced from index page
+│   ├── about.html
+│   ├── colophon.html
+│   ├── css
+│   │   ├── index.css
+│   │   ├── tufte.css
 │   ├── an-article.html
 │   ├── another-article.html
-│   ├── index.css
 │   ├── index.html
 │   ├── media
-│   │   ├── supporting.png
-│   └── tufte.css
+│   │   ├── pic-1.png
+│   │   ├── pic-2.png
+│   │   ├── ...
 └── src
     ├── about.txt
     ├── colophon.txt
