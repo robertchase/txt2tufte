@@ -1,0 +1,132 @@
+html {
+    font-size: 62.5%; # HT: https://www.aleksandrhovhannisyan.com/blog/62-5-percent-font-size-trick/
+}
+
+body {
+    font-size: 2.1rem;
+    width: 87.5%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 12.5%;
+    background-color: #f8f8f8;
+    color: #111;
+    max-width: 1400px;
+}
+
+nav.menu{
+    display: flex;
+    justify-content: space-between;
+
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 400;
+    padding-top: 13rem;
+    font-size: 4.8rem;
+}
+nav.menu ul{
+    margin-top: 0;
+    padding-left: 0;
+    padding-bottom: 0;
+    margin-bottom: 0;
+    list-style: none;
+}
+nav.menu ul li{
+    display: inline-block;
+}
+
+.menu-right {
+    font-size: 1.5rem;
+    padding-top: 3rem;
+    padding-right: 8rem;
+}
+
+.menu-right-link {
+    padding-right: 1rem;
+}
+
+.article-link {
+    font-size: 2.8rem;
+    font-weight: 400;
+}
+
+.subtitle {
+    font-family: Arial, Helvetica, sans-serif;
+    font-style: italic;
+    margin-top: 0;
+    padding-bottom: 30;
+    font-size: 2.7rem;
+    display: block;
+    line-height: 1;
+    margin-bottom: 6rem;
+}
+
+a:link {
+    font-family: Arial, Helvetica, sans-serif;
+    text-transform: None;
+    text-decoration: None;
+}
+
+a:link:hover {
+    background-color: #e0e0e0;
+}
+
+a {
+    color: black;
+}
+
+#
+# toggled descriptions HT: https://www.digitalocean.com/community/tutorials/css-collapsible
+
+.wrap-collapsible {
+  margin-bottom: 1.8rem 0;
+}
+
+input[type='checkbox'] {
+  display: none;
+}
+
+.lbl-toggle {
+
+  font-weight: bold;
+  font-family: monospace;
+  font-size: 1.8rem;
+  text-transform: uppercase;
+  text-align: center;
+
+  padding: 1.6rem;
+
+  cursor: pointer;
+
+  transition: all 0.25s ease-out;
+}
+
+.lbl-toggle::before {
+  content: ' ';
+  display: inline-block;
+
+  border-top: 1rem solid transparent;
+  border-bottom: 1rem solid transparent;
+  border-left: 1rem solid currentColor;
+  margin-right: 1rem;
+  margin-left: -1.5rem;
+  transform: translateY(-2px);
+
+  transition: transform .2s ease-out;
+}
+
+.toggle:checked + .lbl-toggle::before {
+  transform: rotate(90deg) translateX(-3px);
+}
+
+.collapsible-content {
+  max-height: 0px;
+  overflow: hidden;
+  transition: max-height .25s ease-in-out;
+}
+
+.toggle:checked + .lbl-toggle + .collapsible-content {
+    max-height: calc(var(--vh) * 100); # HT: https://ilxanlar.medium.com/you-shouldnt-rely-on-css-100vh-and-here-s-why-1b4721e74487
+}
+
+.collapsible-content .content-inner {
+  padding: .7rem 1.5rem;
+}

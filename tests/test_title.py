@@ -1,6 +1,6 @@
 import pytest
 
-import tufte
+from txt2tufte import tufte
 
 
 @pytest.mark.parametrize("data, result", (
