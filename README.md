@@ -1,6 +1,18 @@
 # markdown-ish to tufte.css
 
-Change a basic text file with markup to html that uses [tufte.css](https://edwardtufte.github.io/tufte-css/) or `css/index.css`.
+Compile a text file containing markup to html that uses [tufte.css](https://edwardtufte.github.io/tufte-css/) or `css/index.css`.
+
+## Concept
+
+`tufte.css` lets you mark up your `HTML` so that it has
+the feel of one of [Edward Tufte's](https://en.wikipedia.org/wiki/Edward_Tufte)
+books. I wanted to use this styling to create articles for publication
+on a website and I *didn't* want to manage a bunch of hand-edited `HTML`.
+I stole a page from [markdown](https://www.markdownguide.org/) and created
+my own markdown-like text file that compiles to tufte-capable `HTML`.
+
+Since this is for a website, I needed a way to generate an `index.html`
+that was stylistically compatible&mdash;so i made a compier for that too.
 
 ## Article File
 
@@ -49,10 +61,16 @@ An index file supports a subset of the formatting codes described in the
 `em-dash`, `code`, `bold`, `italic` and `link` markup codes.
 
 ### how building the index file works
+
+**Note:** The `index.txt` file only creates links to articles that
+are *explicitly called out*. In other words: The compiled index
+file will not automatically point to *all* the articles&mdash;just the
+ones you want.
+
 The lines containing `name-of-article-text-file` 
 tell `index.py` to look for a text file
-named `src/{file-name}.txt` (the value of `src` can be changed by
-setting the `INDEX_SRC` environment variable&mdash;`.txt` is hard-coded).
+named `src/{name-of-article-text-file}.txt` (the value of `src` can be changed by
+setting the `INDEX_SRC` environment variable&mdash;the value of `.txt` is hard-coded).
 The title of the article
 is extracted from the referenced text file.
 
