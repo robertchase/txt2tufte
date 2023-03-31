@@ -9,6 +9,7 @@ my own markdown-like text file that compiles to tufte-capable `HTML`.
 
 Since this is for a website, I needed a way to generate an `index.html`
 that was stylistically compatible&mdash;so i made a compiler for that too.
+The `index.html` uses it's own `css` (`index.css`).
 
 **Note:** I've made changes to the original `tufte.css` which I've
 noted in the `css` directory's `README.md`.
@@ -19,8 +20,8 @@ An `Article` is a text file of this format:
 
 ```
    Title of Article
-   Description (short description used in the index file)
-   Author
+   Description (short description used in the index.html)
+   Author (turned into a link back to index.html)
    Date
 
    # First Section Title
@@ -53,7 +54,7 @@ An `index` file can be converted into `HTML` by running this script:
 
 ### how building the index file works
 
-**Note:** The `index.txt` file only creates links to articles that
+**Note:** The `index.txt` file only generates links to articles that
 are *explicitly called out*. In other words: The compiled index
 file will not automatically point to *all* the articles&mdash;just the
 ones you specify, and in just the order you specify.
@@ -62,7 +63,8 @@ The lines containing (for example) `first-article.txt`
 tell `index.py` to look for a text file
 named `src/{first-article.txt}` (the value of `src` can be changed by
 setting the `INDEX_SRC` environment variable).
-The text file is opened and the title and description
+The text file is opened and the `title` (first line) and
+`description` (second line)
 of the article
 are extracted.
 
