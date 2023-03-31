@@ -204,7 +204,7 @@ def section_to_html(section):
 
 def main(data):
 
-    title, author, date, data = data.split("\n", 3)
+    title, _, author, date, data = data.split("\n", 4)
 
     print(
         "<!DOCTYPE html>"
@@ -218,7 +218,8 @@ def main(data):
         "<body>"
         "<article>"
         f"<h1>{title}</h1>"
-        f'<p class="subtitle">{author}<br>{date}</p>')
+        '<p class="subtitle">'
+        f'<a href="index.html">{author}</a><br>{date}</p>')
 
     data = heading_to_html(data)
     for section in re.split(r"\n#", data):

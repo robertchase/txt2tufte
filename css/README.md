@@ -12,4 +12,6 @@ What I've changed:
 
 * background color from yellow to neutral
 * removed custom fonts
+* use san-serif for headers
+* added a vertical bar to blockquotes
 * switched to relative sizing

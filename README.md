@@ -10,12 +10,16 @@ my own markdown-like text file that compiles to tufte-capable `HTML`.
 Since this is for a website, I needed a way to generate an `index.html`
 that was stylistically compatible&mdash;so i made a compiler for that too.
 
+**Note:** I've made changes to the original `tufte.css` which I've
+noted in the `css` directory's `README.md`.
+
 ## Article File
 
 An `Article` is a text file of this format:
 
 ```
    Title of Article
+   Description (short description used in the index file)
    Author
    Date
 
@@ -38,23 +42,14 @@ An `Index` file is a text file of this format:
 Index Title (for example "Deep Thoughts")
 Subtitle
 
-name-of-article-text-file
-article description
-more description if you want
-
-name-of-another-text-file
-description of another file
+first-article.txt
+second-article.txt
+...
 ```
 
 An `index` file can be converted into `HTML` by running this script:
 
-`python3 -m txt2tufte.index < index.txt > index.html
-
-### formatting in an index file
-
-An index file supports a subset of the formatting codes described in the
-`basic markup` and `multi-line markup` sections below. You can use:
-`em-dash`, `code`, `bold`, `italic` and `link` markup codes.
+`python3 -m txt2tufte.index < index.txt > index.html`
 
 ### how building the index file works
 
@@ -63,12 +58,13 @@ are *explicitly called out*. In other words: The compiled index
 file will not automatically point to *all* the articles&mdash;just the
 ones you specify, and in just the order you specify.
 
-The lines containing `name-of-article-text-file` 
+The lines containing (for example) `first-article.txt`
 tell `index.py` to look for a text file
-named `src/{name-of-article-text-file}.txt` (the value of `src` can be changed by
-setting the `INDEX_SRC` environment variable&mdash;the value of `.txt` is hard-coded).
-The title of the article
-is extracted from the referenced text file.
+named `src/{first-article.txt}` (the value of `src` can be changed by
+setting the `INDEX_SRC` environment variable).
+The text file is opened and the title and description
+of the article
+are extracted.
 
 The expected layout is something like this:
 
@@ -94,6 +90,8 @@ The expected layout is something like this:
     └── index.txt
 ```
 
+Note that all of the `.html` files are ephemeral.
+
 ### Building all the things with `make`
 
 I use a `Makefile` with this code to automatically derive `html` targets:
@@ -102,7 +100,7 @@ I use a `Makefile` with this code to automatically derive `html` targets:
 SRCDIR := src
 TGTDIR := site
 
-# derive targets (site/*.html) from source (src/*.txt)
+# derive targets ({site}/*.html) from source ({src}/*.txt)
 SRC := $(wildcard $(SRCDIR)/*.txt)
 TGT := $(notdir $(SRC))
 TGT := $(basename $(TGT))

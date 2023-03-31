@@ -16,16 +16,20 @@ def format(data):
 
 def add_articles(data):
     src = os.getenv("INDEX_SRC", "src")
-    for article in data.split("\n\n"):
+    for article_fn in data.strip().split("\n"):
+        if not article_fn:
+            continue
         id = "".join(random.choices(string.ascii_lowercase, k=5))
-        fn, desc = article.split("\n", 1)
-        with open(f"{src}/{fn}.txt") as f:
+        with open(f"{src}/{article_fn}") as f:
             title = f.readline()
+            desc = f.readline()
+        desc = format(desc)
         print(
             '<div class="wrap-collapsible">'
             f'<input id="{id}" class="toggle" type="checkbox">'
             f'<label for="{id}" class="lbl-toggle">'
-            f'<a class="article-link" href="{fn}.html">{title}</a></label>'
+            f'<a class="article-link" href="{article_fn.split(".")[0]}.html">'
+            f'{title}</a></label>'
             '<div class="collapsible-content">'
             '<blockquote class="content-inner">'
             f"{desc}"
@@ -59,7 +63,6 @@ def main(data):
         "</nav>"
         f'<p class="subtitle">{subtitle}</p>')
 
-    data = format(data.strip())
     data = add_articles(data)
 
     print(

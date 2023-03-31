@@ -130,6 +130,8 @@ div.epigraph > blockquote > footer > cite {
 
 blockquote {
     font-size: 2.1rem;
+    border-left: thick solid #d0d0d0;
+    padding-left: 1rem;
 }
 
 blockquote p {
