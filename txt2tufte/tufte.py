@@ -3,6 +3,13 @@ import re
 import string
 
 
+def return_arrow_to_html(data):
+    return re.sub(
+        "\n<=\n?",
+        '<p class="no-underline"><a href="index.html">&larr;</a></p>\n',
+        data)
+
+
 def horizontal_rule_to_html(data):
     return re.sub(r"\n---\n", "\n<hr>\n", data)
 
@@ -213,15 +220,17 @@ def main(data):
         '<meta charset="utf-8">'
         '<meta name="viewport" content="width=device-width, initial-scale=1">'
         '<link rel="stylesheet" href="css/tufte.css"/>'
+        '<link rel="stylesheet" href="css/tufte-local.css"/>'
         f"<title>{title}</title>"
         "</head>"
         "<body>"
         "<article>"
         f"<h1>{title}</h1>"
-        '<p class="subtitle">'
-        f'<a href="index.html">{author}</a><br>{date}</p>')
+        '<p class="subtitle no-underline">'
+        f'<a href="index.html">&lsaquo; {author}</a><br>{date}</p>')
 
     data = heading_to_html(data)
+    data = return_arrow_to_html(data)
     for section in re.split(r"\n#", data):
         if section.strip():
             print(section_to_html(section))

@@ -1,26 +1,9 @@
-html {
-    font-size: 62.5%; # HT: https://www.aleksandrhovhannisyan.com/blog/62-5-percent-font-size-trick/
-}
-
-body {
-    font-size: 2.1rem;
-    width: 87.5%;
-    margin-left: auto;
-    margin-right: auto;
-    padding-left: 12.5%;
-    background-color: #f8f8f8;
-    color: #111;
-    max-width: 1400px;
-}
-
-nav.menu{
+nav.menu {
     display: flex;
     justify-content: space-between;
-
-    font-family: Arial, Helvetica, sans-serif;
     font-weight: 400;
-    padding-top: 13rem;
-    font-size: 4.8rem;
+    margin-top: 0;
+    padding-top: 8.7rem;
 }
 nav.menu ul{
     margin-top: 0;
@@ -28,31 +11,31 @@ nav.menu ul{
     padding-bottom: 0;
     margin-bottom: 0;
     list-style: none;
+    line-height: normal;
 }
 nav.menu ul li{
+    margin-top: 0;
     display: inline-block;
 }
 
+.menu-left {
+    font-size: 3.2rem;
+}
+
 .menu-right {
-    font-size: 1.5rem;
-    padding-top: 3rem;
+    font-size: 1rem;
+    padding-top: 2rem;
     padding-right: 8rem;
 }
 
 .menu-right-link {
-    padding-right: 1rem;
-}
-
-.article-link {
-    font-size: 2.8rem;
-    font-weight: 400;
+    padding-right: 0.67rem;
 }
 
 .subtitle {
-    font-family: Arial, Helvetica, sans-serif;
     font-style: italic;
     margin-top: 1.7rem;
-    padding-bottom: 30;
+    padding-bottom: 2rem;
     font-size: 2.7rem;
     display: block;
     line-height: 1;
@@ -60,17 +43,29 @@ nav.menu ul li{
 }
 
 a:link {
-    font-family: Arial, Helvetica, sans-serif;
     text-transform: None;
     text-decoration: None;
 }
 
-a:link:hover {
+a {
+    color: black;
+}
+
+label.no-underline a:link {
+    font-size: 2.2rem;
+    text-shadow: none;
+    background-repeat: no-repeat;
+}
+label.no-underline a:link:hover {
     background-color: #e0e0e0;
 }
 
-a {
-    color: black;
+li.no-underline a:link {
+    text-shadow: none;
+    background-repeat: no-repeat;
+}
+li.no-underline a:link:hover {
+    background-color: #e0e0e0;
 }
 
 #
@@ -85,17 +80,8 @@ input[type='checkbox'] {
 }
 
 .lbl-toggle {
-
-  font-weight: bold;
-  font-family: monospace;
-  font-size: 1.8rem;
-  text-transform: uppercase;
-  text-align: center;
-
   padding: 1.6rem;
-
   cursor: pointer;
-
   transition: all 0.25s ease-out;
 }
 
@@ -103,10 +89,10 @@ input[type='checkbox'] {
   content: ' ';
   display: inline-block;
 
-  border-top: 1rem solid transparent;
-  border-bottom: 1rem solid transparent;
-  border-left: 1rem solid currentColor;
-  margin-right: 1rem;
+  border-top: .75rem solid transparent;
+  border-bottom: .75rem solid transparent;
+  border-left: .75rem solid currentColor;
+  margin-right: .75rem;
   margin-left: -1.5rem;
   transform: translateY(-2px);
 

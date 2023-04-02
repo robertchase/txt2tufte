@@ -27,8 +27,8 @@ def add_articles(data):
         print(
             '<div class="wrap-collapsible">'
             f'<input id="{id}" class="toggle" type="checkbox">'
-            f'<label for="{id}" class="lbl-toggle">'
-            f'<a class="article-link" href="{article_fn.split(".")[0]}.html">'
+            f'<label for="{id}" class="lbl-toggle no-underline">'
+            f'<a href="{article_fn.split(".")[0]}.html">'
             f'{title}</a></label>'
             '<div class="collapsible-content">'
             '<blockquote class="content-inner">'
@@ -48,7 +48,8 @@ def main(data):
         "<head>"
         '<meta charset="utf-8">'
         '<meta name="viewport" content="width=device-width, initial-scale=1">'
-        '<link rel="stylesheet" href="css/index.css"/>'
+        '<link rel="stylesheet" href="css/tufte.css"/>'
+        '<link rel="stylesheet" href="css/tufte-index.css"/>'
         f"<title>{title}</title>"
         "</head>"
         "<body>"
@@ -57,8 +58,10 @@ def main(data):
         f"<li>{title}</li>"
         "</ul>"
         '<ul class="menu-right">'
-        '<li><a class="menu-right-link" href="about.html">About </a></li>'
-        '<li><a class="menu-right-link" href="colophon.html">Colophon</a></li>'
+        '<li class="no-underline">'
+        '<a class="menu-right-link" href="about.html">About </a></li>'
+        '<li class="no-underline">'
+        '<a class="menu-right-link" href="colophon.html">Colophon</a></li>'
         "</ul>"
         "</nav>"
         f'<p class="subtitle">{subtitle}</p>')

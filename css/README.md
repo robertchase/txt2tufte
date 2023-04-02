@@ -1,17 +1,8 @@
 # tufte css
 
-You can use the [original tufte.css](https://edwardtufte.github.io/tufte-css/) for
-a proper effect. Be sure to grab all the custom fonts. If you do this, you
-may be inclined to modify `index.css` for colors & fonts.
+Use the [original tufte.css](https://edwardtufte.github.io/tufte-css/) for
+a proper effect. Be sure to grab all the custom fonts.
 
-Otherwise, you can just move these two files into you project and enjoy.
-
-### modifications
-
-What I've changed:
-
-* background color from yellow to neutral
-* removed custom fonts
-* use san-serif for headers
-* added a vertical bar to blockquotes
-* switched to relative sizing
+The two `css` files included here add support for an `index.html` and
+navigation from the article files. Note that they are *additive*
+to `tufte.css`&mdash;include them `after` including `tufte.css`.

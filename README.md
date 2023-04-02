@@ -9,10 +9,7 @@ my own markdown-like text file that compiles to tufte-capable `HTML`.
 
 Since this is for a website, I needed a way to generate an `index.html`
 that was stylistically compatible&mdash;so i made a compiler for that too.
-The `index.html` uses it's own `css` (`index.css`).
-
-**Note:** I've made changes to the original `tufte.css` which I've
-noted in the `css` directory's `README.md`.
+The `index.html` uses it's own `css` (`tufte-index.css`).
 
 ## Article File
 
@@ -75,10 +72,13 @@ The expected layout is something like this:
 │   ├── about.html
 │   ├── colophon.html
 │   ├── css
-│   │   ├── index.css
 │   │   ├── tufte.css
+│   │   ├── tufte-local.css
+│   │   ├── tufte-index.css
 │   ├── an-article.html
 │   ├── another-article.html
+│   ├── et-book
+│   │   ├──  ...
 │   ├── index.html
 │   ├── media
 │   │   ├── pic-1.png
@@ -178,6 +178,11 @@ of times...
 becomes:
 
 `IT WAS THE BEST of times...`
+
+### return arrow
+Add a return arrow that navigates to the index.
+
+`<=`
 
 ## multi-line markup
 

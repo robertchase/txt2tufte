@@ -1,0 +1,7 @@
+p.no-underline a:link {
+    text-shadow: none;
+    background-repeat: no-repeat;
+}
+p.no-underline a:link:hover {
+    background-color: #e0e0e0;
+}
