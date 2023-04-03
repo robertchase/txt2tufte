@@ -9,7 +9,6 @@ my own markdown-like text file that compiles to tufte-capable `HTML`.
 
 Since this is for a website, I needed a way to generate an `index.html`
 that was stylistically compatible&mdash;so i made a compiler for that too.
-The `index.html` uses it's own `css` (`tufte-index.css`).
 
 ## Article File
 
@@ -73,7 +72,7 @@ The expected layout is something like this:
 │   ├── colophon.html
 │   ├── css
 │   │   ├── tufte.css
-│   │   ├── tufte-local.css
+│   │   ├── tufte-nav.css
 │   │   ├── tufte-index.css
 │   ├── an-article.html
 │   ├── another-article.html

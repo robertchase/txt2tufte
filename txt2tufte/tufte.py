@@ -220,7 +220,7 @@ def main(data):
         '<meta charset="utf-8">'
         '<meta name="viewport" content="width=device-width, initial-scale=1">'
         '<link rel="stylesheet" href="css/tufte.css"/>'
-        '<link rel="stylesheet" href="css/tufte-local.css"/>'
+        '<link rel="stylesheet" href="css/tufte-nav.css"/>'
         f"<title>{title}</title>"
         "</head>"
         "<body>"
