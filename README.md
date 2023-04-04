@@ -161,12 +161,6 @@ On a line by itself:
 
 `---`
 
-### copyright
-On a line by itself:
-
-`@ 1923 Roaring Twenties` &rarr; Copyright &copy; 1923 Roaring Twenties
-
-
 ### uppercase start to paragraph (so-called newthought)
 ```
 
@@ -226,4 +220,12 @@ Creates an indented quote in the main column.
 quote
 more quote
 %
+```
+
+### unordered list
+
+```
+@ item1
+@ item2
+@ item3...
 ```

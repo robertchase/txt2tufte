@@ -14,13 +14,6 @@ def horizontal_rule_to_html(data):
     return re.sub(r"\n---\n", "\n<hr>\n", data)
 
 
-def copyright_to_html(data):
-    pat = r"(.*?\n)@(.+?)(\n.*)"
-    while m := re.match(pat, data, re.DOTALL):
-        data = f"{m.group(1)}Copyright &copy;{m.group(2)}{m.group(3)}"
-    return data
-
-
 def emdash_to_html(data):
     pat = r"(.*?)\s?--\s?(.*)"
     while m := re.match(pat, data, re.DOTALL):
@@ -57,6 +50,24 @@ def link_to_html(data):
             f"{m.group(1)}"
             f'<a href="{m.group(3)}">{m.group(2)}</a>'
             f"{m.group(4)}")
+    return data
+
+
+def unordered_list_to_html(data):
+
+    def find_unorderd_list(data):
+        res = data.split("\n@", 1)
+        if len(res) == 2:
+            beg, data = res
+            res = re.split("\n(?!@)", data, 1)
+            if len(res) == 2:
+                return beg, res[0], res[1]
+        return None
+
+    while m := find_unorderd_list(data):
+        items = m[1].rstrip().split("\n@")
+        items = "".join(f"<li>{item}</li>" for item in items)
+        data = f"{m[0]}<ul>{items}</ul>{m[2]}"
     return data
 
 
@@ -192,13 +203,13 @@ def section_title(section):
 def section_to_html(section):
     section = section_title(section)
     section = horizontal_rule_to_html(section)
-    section = copyright_to_html(section)
     section = emdash_to_html(section)
     section = code_to_html(section)
     section = bold_to_html(section)
     section = italic_to_html(section)
     section = link_to_html(section)
     section = un_escape(section)
+    section = unordered_list_to_html(section)
     section = uppercase_to_html(section)
     section = footnote_to_html(section)
     section = marginnote_to_html(section)
