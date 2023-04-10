@@ -40,7 +40,8 @@ def add_articles(data):
 
 def main(data):
 
-    title, subtitle, data = data.split("\n", 2)
+    # first three lines (including empty line before menu items)
+    title, subtitle, _, data = data.split("\n", 3)
 
     print(
         "<!DOCTYPE html>"
@@ -57,16 +58,25 @@ def main(data):
         '<ul class="menu-left">'
         f"<li>{title}</li>"
         "</ul>"
-        '<ul class="menu-right">'
-        '<li class="no-underline">'
-        '<a class="menu-right-link" href="about.html">About </a></li>'
-        '<li class="no-underline">'
-        '<a class="menu-right-link" href="colophon.html">Colophon</a></li>'
+        '<ul class="menu-right">')
+
+    # menu items (if any) followed by empty line
+    while True:
+        line, data = data.split("\n", 1)
+        if not line.strip():
+            break
+        name, _ = line.split(".", 1)
+        print(
+            '<li class="no-underline">'
+            f'<a class="menu-right-link" href="{name}.html">'
+            f'{name.capitalize()} </a></li>')
+
+    print(
         "</ul>"
         "</nav>"
         f'<p class="subtitle">{subtitle}</p>')
 
-    data = add_articles(data)
+    add_articles(data)
 
     print(
         "</body>"

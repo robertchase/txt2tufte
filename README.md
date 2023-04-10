@@ -39,10 +39,19 @@ An `Index` file is a text file of this format:
 Index Title (for example "Deep Thoughts")
 Subtitle
 
+about.txt
+...
+
 first-article.txt
 second-article.txt
 ...
 ```
+
+The lines following the `Subtitle` are optional special links that appear
+to the right of the `Index Title` as small menu items that might be 
+useful to describe the site.
+
+The lines following the `menu items` are article file names.
 
 An `index` file can be converted into `HTML` by running this script:
 
@@ -71,13 +80,13 @@ The expected layout is something like this:
 │   ├── about.html
 │   ├── colophon.html
 │   ├── css
-│   │   ├── tufte.css
-│   │   ├── tufte-nav.css
-│   │   ├── tufte-index.css
+│   │   ├── tufte-index.css -> $(GIT)/txt2tufte/css/tufte-nav.css
+│   │   ├── tufte-nav.css -> $(GIT)/txt2tufte/css/tufte-nav.css
+│   │   ├── tufte.css -> $(GIT)/tufte-css/tufte-index.css
 │   ├── an-article.html
 │   ├── another-article.html
-│   ├── et-book
-│   │   ├──  ...
+│   ├── et-book -> $(GIT)/tufte-css/et-book
+│   ├── favicon.ico
 │   ├── index.html
 │   ├── media
 │   │   ├── pic-1.png
