@@ -29,7 +29,7 @@ An `Article` is a text file of this format:
 
 An `article` file can be converted into `HTML` by running this script:
 
-`python3 -m txt2tufte.tufte < my-article.txt > my-article.html`
+`python3 -m txt2tufte.tufte < my-article.txt`
 
 ## Index File
 
@@ -50,12 +50,14 @@ second-article.txt
 The lines following the `Subtitle` are optional special links that appear
 to the right of the `Index Title` as small menu items that might be 
 useful to describe the site.
+If the `menu items` aren't included, then there must be two empty
+lines between the `Subtitle` and the first article.
 
 The lines following the `menu items` are article file names.
 
 An `index` file can be converted into `HTML` by running this script:
 
-`python3 -m txt2tufte.index < index.txt > index.html`
+`python3 -m txt2tufte.index < index.txt`
 
 ### how building the index file works
 
@@ -78,7 +80,6 @@ The expected layout is something like this:
 ```
 ├── site
 │   ├── about.html
-│   ├── colophon.html
 │   ├── css
 │   │   ├── tufte-index.css -> $(GIT)/txt2tufte/css/tufte-nav.css
 │   │   ├── tufte-nav.css -> $(GIT)/txt2tufte/css/tufte-nav.css
@@ -94,7 +95,6 @@ The expected layout is something like this:
 │   │   ├── ...
 └── src
     ├── about.txt
-    ├── colophon.txt
     ├── an-article.txt
     ├── another-article.txt
     └── index.txt
@@ -126,7 +126,7 @@ all: $(TGT)
 $(TGTDIR)/%.html : $(SRCDIR)/%.txt
 	python3 -m txt2tufte.tufte < $< > $@
 
-$(TGTDIR)/index.html : $(SRCDIR)/index.txt
+$(TGTDIR)/index.html : $(SRCDIR)/index.txt $(SRC)
 	INDEX_SRC=$(SRCDIR) python3 -m txt2tufte.index < $< > $@
 ```
 
