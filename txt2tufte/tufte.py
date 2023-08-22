@@ -67,7 +67,7 @@ def unordered_list_to_html(data):
     while m := find_unorderd_list(data):
         items = m[1].rstrip().split("\n@")
         items = "".join(f"<li>{item}</li>" for item in items)
-        data = f"{m[0]}<ul>{items}</ul>{m[2]}"
+        data = f"{m[0]}<ul>{items}</ul><p>{m[2]}"
     return data
 
 
