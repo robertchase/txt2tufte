@@ -1,4 +1,7 @@
 # markdown-ish to tufte.css
+tufte-esqe website markup
+
+[![justforfunnoreally.dev badge](https://img.shields.io/badge/justforfunnoreally-dev-9ff)](https://justforfunnoreally.dev)
 
 [tufte.css](https://edwardtufte.github.io/tufte-css/) lets you mark up your `HTML` so that it has
 the feel of one of [Edward Tufte's](https://en.wikipedia.org/wiki/Edward_Tufte)
@@ -8,7 +11,7 @@ I stole a page from [markdown](https://www.markdownguide.org/) and created
 my own markdown-like text file that compiles to tufte-capable `HTML`.
 
 Since this is for a website, I needed a way to generate an `index.html`
-that was stylistically compatible&mdash;so i made a compiler for that too.
+that was stylistically compatible&mdash;so I made a compiler for that too.
 
 ## Article File
 
@@ -48,7 +51,7 @@ second-article.txt
 ```
 
 The lines following the `Subtitle` are optional special links that appear
-to the right of the `Index Title` as small menu items that might be 
+to the right of the `Index Title` as small menu items that might be
 useful to describe the site.
 If the `menu items` aren't included, then there must be two empty
 lines between the `Subtitle` and the first article.
